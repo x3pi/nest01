@@ -1,6 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { fastifyHelmet } from 'fastify-helmet';
+import fastifyCsrf from 'fastify-csrf';
+
 
 
 import {
@@ -15,6 +17,8 @@ async function bootstrap() {
     new FastifyAdapter()
   );
   await app.register(fastifyHelmet);
+  app.register(fastifyCsrf);
+
 
   const config = new DocumentBuilder()
     .setTitle('Cats example')
