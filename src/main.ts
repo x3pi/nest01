@@ -1,5 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { fastifyHelmet } from 'fastify-helmet';
+
 
 import {
   FastifyAdapter,
@@ -12,6 +14,8 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter()
   );
+  await app.register(fastifyHelmet);
+
   const config = new DocumentBuilder()
     .setTitle('Cats example')
     .setDescription('The cats API description')
