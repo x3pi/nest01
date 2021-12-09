@@ -5,7 +5,7 @@ export type CatDocument = Cat & Document;
 
 @Schema()
 export class Cat {
-  @Prop()
+  @Prop({ type: String, required: true })
   name: string;
 
   @Prop()
