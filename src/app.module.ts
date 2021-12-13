@@ -10,6 +10,8 @@ import {
 import { MongooseModule } from '@nestjs/mongoose';
 import { CatsService } from './cats/cats.service';
 import { Cat, CatSchema } from './cats/schemas/cat.schema';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 const Throttler = ThrottlerModule.forRoot({
   ttl: 60,
@@ -23,6 +25,8 @@ const Mongo = MongooseModule.forRoot('mongodb://localhost/mydb')
     Throttler,
     Mongo,
     MongooseModule.forFeature([{ name: Cat.name, schema: CatSchema }]),
+    AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService, CatsService],
