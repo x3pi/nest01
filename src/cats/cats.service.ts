@@ -5,7 +5,6 @@ import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
 import { Cat, CatDocument } from './schemas/cat.schema';
 
-
 @Injectable()
 export class CatsService {
   constructor(@InjectModel(Cat.name) private catModel: Model<CatDocument>) {}
@@ -18,7 +17,6 @@ export class CatsService {
   async findAll(): Promise<Cat[]> {
     return this.catModel.find().exec();
   }
-
 
   findOne(id: number) {
     return `This action returns a #${id} cat`;

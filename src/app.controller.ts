@@ -5,9 +5,12 @@ import { Cat } from './cats/schemas/cat.schema';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService, private readonly catsService: CatsService) {}
+  constructor(
+    private readonly appService: AppService,
+    private readonly catsService: CatsService,
+  ) {}
 
-  @Get(":id")
+  @Get(':id')
   getHello(): string {
     return this.appService.getHello();
   }
