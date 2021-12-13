@@ -8,8 +8,6 @@ import {
   LoggerMiddleware2,
 } from './common/middleware/logger.middleware';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CatsService } from './cats/cats.service';
-import { Cat, CatSchema } from './cats/schemas/cat.schema';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 
@@ -17,19 +15,12 @@ const Throttler = ThrottlerModule.forRoot({
   ttl: 60,
   limit: 10,
 });
-const Mongo = MongooseModule.forRoot('mongodb://localhost/mydb')
+const Mongo = MongooseModule.forRoot('mongodb://localhost/mydb');
 
 @Module({
-  imports: [
-    CatsModule,
-    Throttler,
-    Mongo,
-    MongooseModule.forFeature([{ name: Cat.name, schema: CatSchema }]),
-    AuthModule,
-    UsersModule,
-  ],
+  imports: [CatsModule, Throttler, Mongo, AuthModule, UsersModule],
   controllers: [AppController],
-  providers: [AppService, CatsService],
+  providers: [AppService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

@@ -6,15 +6,15 @@ import {
   Patch,
   Param,
   Delete,
-  UseFilters,
-  BadRequestException,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
 import { Cat } from './interfaces/cat.interface';
 
 @Controller('cats')
+@ApiTags('Cats')
 export class CatsController {
   constructor(private readonly catsService: CatsService) {}
 
