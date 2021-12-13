@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Role } from 'src/role/role.enum';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 export type User = any;
@@ -10,13 +11,13 @@ export class UsersService {
       userId: 1,
       username: 'john',
       password: 'changeme',
-      role: 'Admin',
+      roles: [Role.Admin],
     },
     {
       userId: 2,
       username: 'maria',
       password: 'guess',
-      role: 'User',
+      roles: [Role.User],
     },
   ];
   create(createUserDto: CreateUserDto) {

@@ -8,6 +8,8 @@ import {
   Delete,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { Role } from 'src/role/role.enum';
+import { Roles } from 'src/role/roles.decorator';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
@@ -19,6 +21,7 @@ export class CatsController {
   constructor(private readonly catsService: CatsService) {}
 
   @Post()
+  @Roles(Role.User)
   async create(@Body() createCatDto: CreateCatDto) {
     return this.catsService.create(createCatDto);
   }
@@ -29,6 +32,7 @@ export class CatsController {
   }
 
   @Get(':id')
+  @Roles(Role.User)
   findOne(@Param('id') id: string) {
     return this.catsService.findOne(+id);
   }
