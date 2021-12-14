@@ -23,6 +23,7 @@ export class CatsController {
   @Post()
   @Roles(Role.User)
   async create(@Body() createCatDto: CreateCatDto) {
+    console.log(createCatDto);
     return this.catsService.create(createCatDto);
   }
 

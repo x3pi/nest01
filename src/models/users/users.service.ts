@@ -1,27 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { Role } from 'src/authentication/role/role.enum';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-export type User = any;
+import { User, UserDocument } from './schemas/users.schema';
 
 @Injectable()
 export class UsersService {
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'john',
-      password: 'changeme',
-      roles: [Role.Admin],
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'guess',
-      roles: [Role.User],
-    },
-  ];
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    const createdUser = new this.userModel(createUserDto);
+    return createdUser.save();
   }
 
   findAll() {
@@ -29,7 +20,7 @@ export class UsersService {
   }
 
   async findOne(username: string): Promise<User | undefined> {
-    return this.users.find((user) => user.username === username);
+    return this.userModel.findOne({ username: username });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

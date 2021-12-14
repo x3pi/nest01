@@ -11,15 +11,31 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Public } from 'src/common/decorator/public.decorator';
+import { User } from './schemas/users.schema';
+import * as bcrypt from 'bcrypt';
 
 @Controller('users')
 @ApiTags('Users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @Public()
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto) {
+    const user = new User();
+    user.username = createUserDto.username;
+    const saltOrRounds = 10;
+    const hash = await bcrypt.hash(createUserDto.password, saltOrRounds);
+    user.password = hash;
+    const isMatch = await bcrypt.compare(createUserDto.password, hash);
+    console.log(isMatch);
+    const isMatch2 = await bcrypt.compare(
+      'string',
+      '$2b$10$PXxlCIYwnR9CFpyhIeoNduVj90fM.xT.ndijPt4sR.0e.C.tKTFQq',
+    );
+    console.log(isMatch2);
+    return this.usersService.create(user);
   }
 
   @Get()
